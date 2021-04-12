@@ -1,5 +1,32 @@
 # Node.js recruitment task
 
+
+
+#Installation
+
+1. Install dependencies
+
+```npm i```
+
+2. Run command
+
+``` docker-compose build```
+
+```docker-compose up```
+
+or
+
+```docker-compose up --build```
+
+
+app running ```localhost:3000```
+
+# Test
+
+```npm test```
+
+
+
 We'd like you to build a simple Movie API. It should provide two endpoints:
 
 1. `POST /movies`

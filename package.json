@@ -2,15 +2,23 @@
   "name": "node-auth-svc",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "jest": "node --experimental-vm-modules node_modules/.bin/jest --color --verbose --coverage --forceExit --runInBand --detectOpenHandles --testPathPattern=src/test/",
+    "test": "docker-compose run --rm app npm run jest"
   },
   "keywords": [],
   "author": "",
   "license": "",
   "dependencies": {
+    "axios": "^0.21.1",
     "body-parser": "1.19.0",
     "express": "4.17.1",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.6"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.1.3",
   }
 }

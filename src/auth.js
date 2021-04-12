@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+import jwt from 'jsonwebtoken'
 
 const users = [
   {
@@ -41,7 +41,17 @@ const authFactory = (secret) => (username, password) => {
   );
 };
 
-module.exports = {
-  authFactory,
-  AuthError,
-};
+const authVerify = (token) => {
+  try {
+    return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+  } catch (e) {
+    throw new AuthError
+  }
+
+}
+
+const userVerify = (user) =>  {
+  return users.some(({id}) => id === user.userId)
+}
+
+export { authFactory, AuthError, authVerify, userVerify}

@@ -1,10 +1,12 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const { authFactory, AuthError } = require("./auth");
+import express from 'express'
+const router = express.Router();
+import bodyParser from 'body-parser';
+import { authFactory, AuthError } from './auth.js'
+import movieRoutes  from './routes/movies.js'
 
 const PORT = 3000;
-const { JWT_SECRET } = process.env;
-
+const { JWT_SECRET, MONGO_URI } = process.env;
+console.log("JWT_SECRET: ", process.env.JWT_SECRET, "MONGO_URI: ", MONGO_URI)
 if (!JWT_SECRET) {
   throw new Error("Missing JWT_SECRET env var. Set it and restart the server");
 }
@@ -13,6 +15,7 @@ const auth = authFactory(JWT_SECRET);
 const app = express();
 
 app.use(bodyParser.json());
+app.use(`/movies`,movieRoutes(router))
 
 app.post("/auth", (req, res, next) => {
   if (!req.body) {
@@ -38,6 +41,7 @@ app.post("/auth", (req, res, next) => {
   }
 });
 
+
 app.use((error, _, res, __) => {
   console.error(
     `Error processing request ${error}. See next message for details`
@@ -50,3 +54,5 @@ app.use((error, _, res, __) => {
 app.listen(PORT, () => {
   console.log(`auth svc running at port ${PORT}`);
 });
+
+export default app
