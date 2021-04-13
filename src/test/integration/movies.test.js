@@ -8,14 +8,16 @@ import { saveMovie } from './../tech_support/movie.js'
 
 
 describe('Movie', () =>   {
+
   beforeAll(async () => {
     const db = await getDB()
-    db.collection('movies').drop()
+    await db.collection('movies').drop()
   })
-  afterAll(async () => {
+  afterEach(async () => {
     const db = await getDB()
-    db.collection('movies').drop()
+    await db.collection('movies').drop()
   })
+
 function createNewMovie () {
     return request(app)
       .post(`/movies`)
@@ -36,7 +38,6 @@ function getAllMovies () {
     expect(director).toBe("N/A")
     expect(statusCode).toBe()
   }
-
   function expectGetAllMovies(response) {
     const { statusCode, body: result } = response
     expect(result.length).toBe(5)
@@ -46,19 +47,28 @@ function getAllMovies () {
     expect(result[0].director).toBe("N/A")
     expect(statusCode).toBe(200)
   }
+  function expectToGetError(response) {
 
+  }
 
-  test('can save new movie: ', async () => {
+  test.only('can\'t save if not auth', async () => {
+    const response = await createNewMovie()
+    expectToGetError('auth')
+  })
+  test('can save new movie if you\'re auth: ', async () => {
     const response = await createNewMovie()
     expectCreateMovie(response, 'createMovie')
   })
+  test('can\'t save more than 5 movies if basic account', async () => {
 
+  })
+  test('can save more than 5 movies if premium account', async () => {
+
+  })
   test('can get all movies: ', async () => {
-    await createNewMovie()
-    await createNewMovie()
-    await createNewMovie()
-    await createNewMovie()
+    await Promise.all([createNewMovie(), createNewMovie(), createNewMovie(), createNewMovie(), createNewMovie()])
     const response = await getAllMovies()
     expectGetAllMovies(response)
   })
+
 })

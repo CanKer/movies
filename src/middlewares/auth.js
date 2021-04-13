@@ -1,5 +1,5 @@
 import { AuthError, authVerify, userVerify } from './../auth.js'
-import UserService from './../services/users/service'
+import UserService from './../services/users/service.js'
 
 const auth = async (req, res, next) => {
   if(!req.headers.authorization) throw new AuthError

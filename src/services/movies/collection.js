@@ -4,6 +4,7 @@ import getDB from './../../infrastructure/database.js'
 export default class Collection {
   static async getMovies()  {
     const db = await getDB()
+    console.log("DB PERRO: ", db)
     return db.collection('movies')
             .find()
             .toArray()
