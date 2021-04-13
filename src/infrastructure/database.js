@@ -3,24 +3,22 @@ const MongoClient = mongodb.MongoClient
 
 let _db = null
 
-const connection = () => {
-  return MongoClient
-          .connect(process.env.MONGO_URI, { useNewUrlParser: true })
-          .then(client => {
-            console.log("connected to DB")
-            _db = client.db()
-            return _db
-          })
-          .catch(error => {
-            console.error("error: ", error)
-            throw Error(error)})
+const connection = async () => {
+  try {
+    const client = await MongoClient.connect(process.env.MONGO_URI, { useNewUrlParser: true })
+    _db = client.db()
+    return _db
+  } catch (error) {
+    console.error('error: ', error)
+    throw Error(error)
+  }
 }
 
-const getDB = () => {
+const getDB = async () => {
   if (_db) {
     return _db
   } else {
-    return connection()
+    return await connection()
   }
 }
 

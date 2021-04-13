@@ -1,58 +1,65 @@
 import express from 'express'
-const router = express.Router();
-import bodyParser from 'body-parser';
+import bodyParser from 'body-parser'
 import { authFactory, AuthError } from './auth.js'
-import movieRoutes  from './routes/movies.js'
+import movieRoutes from './routes/movies.js'
+const router = express.Router()
 
-const PORT = 3000;
-const { JWT_SECRET, MONGO_URI } = process.env;
-console.log("JWT_SECRET: ", process.env.JWT_SECRET, "MONGO_URI: ", MONGO_URI)
+const PORT = 3000
+const { JWT_SECRET, MONGO_URI } = process.env
+console.log('JWT_SECRET: ', process.env.JWT_SECRET, 'MONGO_URI: ', MONGO_URI)
 if (!JWT_SECRET) {
-  throw new Error("Missing JWT_SECRET env var. Set it and restart the server");
+  throw new Error('Missing JWT_SECRET env var. Set it and restart the server')
 }
 
-const auth = authFactory(JWT_SECRET);
-const app = express();
+const auth = authFactory(JWT_SECRET)
+const app = express()
 
-app.use(bodyParser.json());
-app.use(`/movies`,movieRoutes(router))
+app.use(bodyParser.json())
+app.use('/movies', movieRoutes(router))
 
-app.post("/auth", (req, res, next) => {
+app.post('/auth', (req, res, next) => {
   if (!req.body) {
-    return res.status(400).json({ error: "invalid payload" });
+    return res.status(400).json({ error: 'invalid payload' })
   }
 
-  const { username, password } = req.body;
+  const { username, password } = req.body
 
   if (!username || !password) {
-    return res.status(400).json({ error: "invalid payload" });
+    return res.status(400).json({ error: 'invalid payload' })
   }
 
   try {
-    const token = auth(username, password);
+    const token = auth(username, password)
 
-    return res.status(200).json({ token });
+    return res.status(200).json({ token })
   } catch (error) {
     if (error instanceof AuthError) {
-      return res.status(401).json({ error: error.message });
+      return res.status(401).json({ error: error.message })
     }
 
-    next(error);
+    next(error)
   }
-});
-
+})
 
 app.use((error, _, res, __) => {
-  console.error(
-    `Error processing request ${error}. See next message for details`
-  );
-  console.error(error);
-
-  return res.status(500).json({ error: "internal server error" });
-});
+  const status = error.statusCode || 500
+  const errorResponse = prepareErrorResponse(error)
+  console.error(`Error processing request ${error}. See next message for details`)
+  console.error(error)
+  res.status(status).json(errorResponse)
+})
 
 app.listen(PORT, () => {
-  console.log(`auth svc running at port ${PORT}`);
-});
+  console.log(`auth svc running at port ${PORT}`)
+})
+
+const prepareErrorResponse = (err) => {
+  const error = {}
+  error.message = `${err.message}: ${err.details ? err.details.message : ''}`
+  error.type = err.type || 'SERVER_ERROR'
+  error.details = err.details || {}
+  error.meta = err.meta || {}
+  return error
+}
 
 export default app
