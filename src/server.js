@@ -54,12 +54,8 @@ app.listen(PORT, () => {
 })
 
 const prepareErrorResponse = (err) => {
-  const error = {}
-  error.message = `${err.message}: ${err.details ? err.details.message : ''}`
-  error.type = err.type || 'SERVER_ERROR'
-  error.details = err.details || {}
-  error.meta = err.meta || {}
-  return error
+  const { code, type, message } = err
+  return { code, type, message }
 }
 
 export default app

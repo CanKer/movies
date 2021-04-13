@@ -11,7 +11,7 @@ const connection = async () => {
     _db = client.db()
     return _db
   } catch (error) {
-    console.error('error: ', error)
+    console.error('erroraldsjhflañjsfñla: ')
     throw new DBError(error.code, 'Connection Error')
   }
 }

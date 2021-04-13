@@ -6,6 +6,7 @@ export class DBError extends Error {
     this.type = type
     this.code = 503
     this.message = message
+    Error.captureStackTrace(this)
   }
 }
 
@@ -16,6 +17,7 @@ export class AuthError extends Error {
     this.type = 'Auth Error'
     this.code = 403
     this.message = message
+    Error.captureStackTrace(this)
   }
 }
 
@@ -26,6 +28,7 @@ export class ValidationError extends Error {
     this.type = type
     this.code = code
     this.message = message
+    Error.captureStackTrace(this)
   }
 }
 
@@ -36,6 +39,7 @@ export class NotFound extends Error {
     this.type = 'Not Found'
     this.code = 404
     this.message = message
+    Error.captureStackTrace(this)
   }
 }
 
@@ -46,5 +50,6 @@ export class ServerError extends Error {
     this.type = 'Server Error'
     this.code = 501
     this.message = message
+    Error.captureStackTrace(this)
   }
 }
