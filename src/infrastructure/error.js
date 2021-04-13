@@ -1,6 +1,5 @@
 export class DBError extends Error {
   constructor (builder) {
-    console.log('builder', builder)
     const { type, message } = builder
     super(message)
     this.type = type

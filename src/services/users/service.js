@@ -4,28 +4,31 @@ import { NotFound, ServerError } from './../../infrastructure/error.js'
 
 export default class Service {
   static async getUser (userId) {
+    let user
     try {
-      const user = await UserCollection.getUser(userId)
-      const userObj = new User(user).serialize()
-      return userObj
-    } catch (error) {
-      throw new NotFound('User not Found')
+      user = await UserCollection.getUser(userId)
+      if (user.length > 0) {
+        const userObj = new User(user).serialize()
+        return userObj
+      } else throw new NotFound('Invalid User')
+    } catch (e) {
+      throw new NotFound('Invalid User')
     }
   }
 
   static async updateAddMovie (userId) {
+    const user = await Service.getUser(userId)
     try {
-      const user = await Service.getUser(userId)
       await UserCollection.updateAddMovie(user)
-      return
-    } catch ({ message }) {
-      throw new ServerError(message)
+      return user
+    } catch (error) {
+      throw new ServerError(error.message)
     }
   }
 
-  static async updateChangesLeft (userId) {
-    const user = await UserCollection.getUser(userId)
-    const changesLeft = ((user.lastModified - 2678400) > 0) ? --user.changesLeft : 5
+  static async updateChangesLeft (user) {
+    let { userId, lastModified, changesLeft } = user
+    changesLeft = ((lastModified - 2678400) > 0) ? --changesLeft : 5
     try {
       await UserCollection.updateChangesLeft(userId, changesLeft)
       return await Service.getUser(userId)

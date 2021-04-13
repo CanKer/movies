@@ -2,6 +2,8 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import { authFactory, AuthError } from './auth.js'
 import movieRoutes from './routes/movies.js'
+import UserCollection from './services/users/collection.js'
+
 const router = express.Router()
 
 const PORT = 3000
@@ -51,6 +53,9 @@ app.use((error, _, res, __) => {
 
 app.listen(PORT, () => {
   console.log(`auth svc running at port ${PORT}`)
+  UserCollection.setUsers()
+    .then(e => e)
+    .catch(e => e)
 })
 
 const prepareErrorResponse = (err) => {
