@@ -1,5 +1,6 @@
 export class DBError extends Error {
   constructor (builder) {
+    console.log('builder', builder)
     const { type, message } = builder
     super(message)
     this.type = type
@@ -10,9 +11,9 @@ export class DBError extends Error {
 
 export class AuthError extends Error {
   constructor (builder) {
-    const { type, message } = builder
+    const { message } = builder
     super(message)
-    this.type = type
+    this.type = 'Auth Error'
     this.code = 403
     this.message = message
   }
@@ -40,9 +41,9 @@ export class NotFound extends Error {
 
 export class ServerError extends Error {
   constructor (builder) {
-    const { type, message } = builder
+    const { message } = builder
     super(message)
-    this.type = type
+    this.type = 'Server Error'
     this.code = 501
     this.message = message
   }

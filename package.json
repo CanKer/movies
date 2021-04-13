@@ -11,7 +11,8 @@
     "jest": "node --experimental-vm-modules node_modules/.bin/jest --color --verbose --coverage --forceExit --runInBand --detectOpenHandles --testPathPattern=src/test/",
     "pretest": "docker-compose up --detach mongo",
     "test": "docker-compose run --rm test-app npm run jest",
-    "posttest": "docker-compose down"
+    "posttest": "docker-compose down",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",

@@ -1,4 +1,6 @@
 import mongodb from 'mongodb'
+import { DBError } from './error.js'
+
 const MongoClient = mongodb.MongoClient
 
 let _db = null
@@ -10,7 +12,7 @@ const connection = async () => {
     return _db
   } catch (error) {
     console.error('error: ', error)
-    throw Error(error)
+    throw new DBError(error.code, 'Connection Error')
   }
 }
 
