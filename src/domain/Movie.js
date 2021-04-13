@@ -1,15 +1,14 @@
 export default class Movie {
-  constructor(data) {
-    const {_id, Title, Released, Genre, Director} = data
+  constructor (data) {
+    const { _id, Title, Released, Genre, Director } = data
     if (_id) this._id = _id
     this.title = Title
     this.released = Released
     this.genre = Genre
     this.director = Director
-
   }
 
-  serialize(id) {
+  serialize (id) {
     const movie = {
       title: this.title,
       released: this.released,
@@ -23,5 +22,4 @@ export default class Movie {
     this._id = id
     return this
   }
-
 }

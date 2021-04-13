@@ -1,3 +1,3 @@
-import { Service as MovieService } from './movies/service'
+import MovieService from './movies/service'
 
 export { MovieService }

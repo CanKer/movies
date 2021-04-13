@@ -1,5 +1,5 @@
-const saveMovie =  {
-  title: "Matrix"
+const saveMovie = {
+  title: 'Matrix'
 }
 
 export { saveMovie }

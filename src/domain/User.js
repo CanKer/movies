@@ -1,6 +1,6 @@
 export default class User {
-  constructor(data) {
-    const { userId, name, role, username, password, lastModified, changesLeft } = data
+  constructor (data) {
+    const { _id, userId, name, role, username, password, lastModified, changesLeft } = data
 
     if (_id) this._id = _id
     this.userId = userId
@@ -10,10 +10,9 @@ export default class User {
     this.password = password
     this.lastModified = lastModified
     this.changesLeft = changesLeft
-
   }
 
-  serialize(id) {
+  serialize (id) {
     const user = {
       userId: this.userId,
       name: this.name,
@@ -30,5 +29,4 @@ export default class User {
     this._id = id
     return this
   }
-
 }

@@ -1,23 +1,21 @@
 import getDB from './../../infrastructure/database.js'
 
-
 export default class Collection {
-  static async getMovies()  {
+  static async getMovies () {
     const db = await getDB()
-    console.log("DB PERRO: ", db)
+    console.log('DB PERRO: ', db)
     return db.collection('movies')
-            .find()
-            .toArray()
-            .then(result => result)
-            .catch( error => {throw error})
+      .find()
+      .toArray()
+      .then(result => result)
+      .catch(error => { throw error })
   }
 
-  static async saveMovie(movie) {
+  static async saveMovie (movie) {
     const db = await getDB()
     return db.collection('movies')
-      .insertOne({...movie})
-      .then(({insertedId}) => insertedId)
-      .catch(error => {throw error})
+      .insertOne({ ...movie })
+      .then(({ insertedId }) => insertedId)
+      .catch(error => { throw error })
   }
-
 }
